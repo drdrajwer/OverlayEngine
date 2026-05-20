@@ -52,8 +52,8 @@ public partial class App : Application
 
             Action exitAction = () =>
             {
-                if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime d)
-                    d.Shutdown();
+                try { _overlayVm?.Dispose(); } catch { }
+                Environment.Exit(0);
             };
             Action hideAction = () => _settingsWindow?.Hide();
 

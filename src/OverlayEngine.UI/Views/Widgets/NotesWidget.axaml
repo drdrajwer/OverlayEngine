@@ -47,7 +47,7 @@
                                            Text="{Binding Text}"
                                            FontFamily="Inter,Roboto,sans-serif"
                                            FontSize="12"
-                                           Foreground="#CCFFFFFF"
+                                           Foreground="{DynamicResource TextBrush}"
                                            VerticalAlignment="Center"
                                            TextWrapping="Wrap"
                                            Margin="6,0" />

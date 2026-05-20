@@ -243,6 +243,12 @@ public sealed class SettingsPanelViewModel : ViewModelBase
         if (Application.Current?.Resources is not { } res) return;
 
         TrySetBrush(res, "AccentBrush", AccentColor);
+        try
+        {
+            var ac = Color.Parse(AccentColor);
+            res["AccentBrushFaint"] = new SolidColorBrush(new Color(30, ac.R, ac.G, ac.B));
+        }
+        catch { }
         res["TileCorner"]      = new CornerRadius(CornerRadius);
         res["TileBorderBrush"] = ShowTileBorder
             ? (Brush)new SolidColorBrush(TryParseColor(BorderColor, Color.Parse("#33FFFFFF")))

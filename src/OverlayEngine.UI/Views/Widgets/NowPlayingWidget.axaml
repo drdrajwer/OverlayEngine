@@ -14,7 +14,7 @@
                            Classes="label-small" />
                 <Border Grid.Column="1"
                         CornerRadius="4" Padding="5,2"
-                        Background="#1A4FC3F7"
+                        Background="{DynamicResource AccentBrushFaint}"
                         IsVisible="{Binding IsPlaying}">
                     <TextBlock Text="▶ LIVE"
                                FontSize="8" FontWeight="SemiBold"
@@ -39,7 +39,7 @@
                                MaxWidth="175" />
                     <TextBlock Text="{Binding Artist}"
                                FontSize="10"
-                               Foreground="#77FFFFFF"
+                               Foreground="{DynamicResource LabelForeground}"
                                IsVisible="{Binding IsPlaying}"
                                TextTrimming="CharacterEllipsis"
                                MaxWidth="175" />

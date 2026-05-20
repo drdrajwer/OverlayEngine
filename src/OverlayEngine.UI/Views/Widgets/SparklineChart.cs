@@ -32,10 +32,18 @@ public sealed class SparklineChart : Control
         set => SetValue(UploadHistoryProperty, value);
     }
 
-    private static readonly IBrush DownBrush = new SolidColorBrush(Color.Parse("#4FC3F7"));
-    private static readonly IBrush UpBrush   = new SolidColorBrush(Color.Parse("#CE93D8"));
-    private static readonly IBrush FillDown  = new SolidColorBrush(Color.FromArgb(30, 0x4F, 0xC3, 0xF7));
-    private static readonly IBrush FillUp    = new SolidColorBrush(Color.FromArgb(30, 0xCE, 0x93, 0xD8));
+    private static (IBrush line, IBrush fill) AccentPair(byte alpha = 200)
+    {
+        if (Application.Current?.Resources.TryGetResource("AccentBrush", null, out var res) == true
+            && res is SolidColorBrush sb)
+        {
+            var c = sb.Color;
+            return (new SolidColorBrush(Color.FromArgb(alpha, c.R, c.G, c.B)),
+                    new SolidColorBrush(Color.FromArgb(28,    c.R, c.G, c.B)));
+        }
+        return (new SolidColorBrush(Color.Parse("#4FC3F7")),
+                new SolidColorBrush(Color.FromArgb(28, 0x4F, 0xC3, 0xF7)));
+    }
 
     public SparklineChart()
     {
@@ -71,8 +79,10 @@ public sealed class SparklineChart : Control
         var h = Bounds.Height;
         if (w < 2 || h < 2) return;
 
-        RenderLine(context, DownloadHistory, DownBrush, FillDown, w, h);
-        RenderLine(context, UploadHistory,   UpBrush,   FillUp,   w, h);
+        var (downLine, downFill) = AccentPair(220);
+        var (upLine,   upFill)   = AccentPair(120);
+        RenderLine(context, DownloadHistory, downLine, downFill, w, h);
+        RenderLine(context, UploadHistory,   upLine,   upFill,   w, h);
     }
 
     private static void RenderLine(DrawingContext ctx,

@@ -20,25 +20,25 @@
                 <TextBlock Grid.Column="0"
                            Text="↓"
                            FontSize="13" FontWeight="Bold"
-                           Foreground="#4FC3F7"
+                           Foreground="{DynamicResource AccentBrush}"
                            VerticalAlignment="Center" />
                 <TextBlock Grid.Column="2"
                            x:Name="DownLabel"
                            Text="{Binding DownloadLabel}"
                            Classes="value-medium"
-                           Foreground="#4FC3F7" />
+                           Foreground="{DynamicResource AccentBrush}" />
 
                 <!-- Upload arrow -->
                 <TextBlock Grid.Column="4"
                            Text="↑"
                            FontSize="13" FontWeight="Bold"
-                           Foreground="#CE93D8"
+                           Foreground="{DynamicResource LabelForeground}"
                            VerticalAlignment="Center" />
                 <TextBlock Grid.Column="6"
                            x:Name="UpLabel"
                            Text="{Binding UploadLabel}"
                            Classes="value-medium"
-                           Foreground="#CE93D8" />
+                           Foreground="{DynamicResource LabelForeground}" />
             </Grid>
 
             <!-- Sparkline chart -->
