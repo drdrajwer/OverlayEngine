@@ -76,7 +76,7 @@ if exist "%RELEASES_DIR%" (
     rmdir /s /q "%RELEASES_DIR%"
 )
 
-vpk pack ^
+vpk windows pack ^
     --packId "%APP_ID%" ^
     --packVersion "%APP_VERSION%" ^
     --packDir "%PUBLISH_DIR%" ^
