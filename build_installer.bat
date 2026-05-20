@@ -1,47 +1,48 @@
 @echo off
 setlocal enabledelayedexpansion
-title OverlayEngine — Velopack Installer Build
+title OverlayEngine — Installer Build
 
-:: ── Wersja aplikacji ─────────────────────────────────────────────────────────
 set "APP_VERSION=1.1.0"
-set "APP_ID=OverlayEngine"
-
-:: ── Sciezki ──────────────────────────────────────────────────────────────────
 set "SCRIPT_DIR=%~dp0"
 set "PUBLISH_DIR=%SCRIPT_DIR%publish_installer"
 set "RELEASES_DIR=%SCRIPT_DIR%releases"
 set "CSPROJ=%SCRIPT_DIR%src\OverlayEngine.UI\OverlayEngine.UI.csproj"
+set "ISS=%SCRIPT_DIR%setup.iss"
+set "ISCC=C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 
 echo.
 echo  ============================================
-echo   OverlayEngine  ^|  Velopack Installer Build
-echo   Wersja: %APP_VERSION%
+echo   OverlayEngine  ^|  Installer Build v%APP_VERSION%
 echo  ============================================
 echo.
 
-:: ── Sprawdz .NET SDK ──────────────────────────────────────────────────────────
+:: ── Sprawdz .NET SDK ─────────────────────────────────────────────────────────
 dotnet --version >nul 2>&1
 if errorlevel 1 (
     echo  [BLAD] Brak .NET SDK. Pobierz ze: https://dotnet.microsoft.com/download/dotnet/8.0
-    pause
-    exit /b 1
+    pause & exit /b 1
 )
 
-:: ── Sprawdz vpk ──────────────────────────────────────────────────────────────
-vpk --version >nul 2>&1
-if errorlevel 1 (
-    echo  [INFO] Instaluje narzedzie vpk...
-    dotnet tool install -g vpk
+:: ── Sprawdz / zainstaluj Inno Setup ──────────────────────────────────────────
+if not exist "%ISCC%" (
+    echo  [INFO] Inno Setup nie znaleziony. Pobieranie i instalacja...
+    set "IS_INSTALLER=%TEMP%\innosetup.exe"
+    curl -L --progress-bar "https://files.jrsoftware.org/is/6/innosetup-6.3.3.exe" -o "!IS_INSTALLER!"
     if errorlevel 1 (
-        echo  [BLAD] Nie udalo sie zainstalowac vpk.
-        pause
-        exit /b 1
+        echo  [BLAD] Nie udalo sie pobrac Inno Setup.
+        echo  Pobierz recznie ze: https://jrsoftware.org/isdl.php
+        pause & exit /b 1
     )
-    echo  [OK] vpk zainstalowany.
+    "!IS_INSTALLER!" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+    if not exist "%ISCC%" (
+        echo  [BLAD] Inno Setup nie zainstalowal sie poprawnie.
+        pause & exit /b 1
+    )
+    echo  [OK] Inno Setup zainstalowany.
     echo.
 )
 
-:: ── Zawsze buduj od zera (bez PublishSingleFile) ─────────────────────────────
+:: ── Buduj projekt ────────────────────────────────────────────────────────────
 echo  Czyszczenie starego buildu...
 if exist "%PUBLISH_DIR%" rmdir /s /q "%PUBLISH_DIR%"
 
@@ -54,51 +55,42 @@ dotnet publish "%CSPROJ%" ^
     --runtime win-x64 ^
     --self-contained true ^
     --output "%PUBLISH_DIR%" ^
+    -p:PublishSingleFile=true ^
+    -p:IncludeNativeLibrariesForSelfExtract=true ^
     -nologo
 
 if errorlevel 1 (
-    echo.
     echo  [BLAD] Kompilacja nie powiodla sie.
-    pause
-    exit /b 1
+    pause & exit /b 1
 )
 
-:: ── Pakowanie z Velopack ─────────────────────────────────────────────────────
+:: ── Kompiluj instalator ───────────────────────────────────────────────────────
 echo.
-echo  Pakowanie instalatora...
-echo  Wersja: %APP_VERSION%
+echo  Tworzenie instalatora...
 echo.
 
 if exist "%RELEASES_DIR%" rmdir /s /q "%RELEASES_DIR%"
 
-vpk pack ^
-    --packId "%APP_ID%" ^
-    --packVersion "%APP_VERSION%" ^
-    --packDir "%PUBLISH_DIR%" ^
-    --mainExe "OverlayEngine.UI.exe" ^
-    --outputDir "%RELEASES_DIR%"
+"%ISCC%" "%ISS%"
 
-:: Sprawdz czy instalator faktycznie powstal
-if not exist "%RELEASES_DIR%\%APP_ID%-Setup.exe" (
+if not exist "%RELEASES_DIR%\OverlayEngine-Setup.exe" (
     echo.
-    echo  [BLAD] Instalator nie zostal utworzony. Sprawdz bledy powyzej.
-    pause
-    exit /b 1
+    echo  [BLAD] Instalator nie zostal utworzony.
+    pause & exit /b 1
 )
 
 :: ── Gotowe ───────────────────────────────────────────────────────────────────
 echo.
 echo  ============================================
-echo   Installer gotowy!
+echo   Gotowe!  OverlayEngine-Setup.exe utworzony
 echo  ============================================
 echo.
-echo  Instalator: %RELEASES_DIR%\%APP_ID%-Setup.exe
+echo  Plik: %RELEASES_DIR%\OverlayEngine-Setup.exe
 echo.
-echo  Co dalej:
-echo  1. Wejdz na: https://github.com/drdrajwer/OverlayEngine/releases/new
+echo  Co dalej — wgraj na GitHub Release:
+echo  1. https://github.com/drdrajwer/OverlayEngine/releases/new
 echo  2. Tag: v%APP_VERSION%
-echo  3. Wgraj WSZYSTKIE pliki z folderu:
-echo     %RELEASES_DIR%
+echo  3. Wgraj: %RELEASES_DIR%\OverlayEngine-Setup.exe
 echo.
 
 set /p OPEN="Otworzyc folder releases\? [T/N]: "

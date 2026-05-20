@@ -1,8 +1,5 @@
 using Avalonia;
 using Avalonia.ReactiveUI;
-#if NET8_0_WINDOWS
-using Velopack;
-#endif
 
 namespace OverlayEngine.UI;
 
@@ -16,10 +13,6 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-#if NET8_0_WINDOWS
-        // Must be the very first call — handles applying pending Velopack updates
-        VelopackApp.Build().Run();
-#endif
         File.WriteAllText(LogPath, $"[{DateTime.Now:HH:mm:ss}] Main started v{AppVersion}\n");
         try
         {

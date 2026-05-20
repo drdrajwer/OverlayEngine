@@ -8,9 +8,7 @@ using Avalonia.Threading;
 using Microsoft.Win32;
 using OverlayEngine.Core.Models;
 using OverlayEngine.Core.Services;
-#if NET8_0_WINDOWS
 using OverlayEngine.UI.Services;
-#endif
 using OverlayEngine.UI.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -208,25 +206,19 @@ public sealed class SettingsPanelViewModel : ViewModelBase
 
     private async Task CheckForUpdatesAsync()
     {
-        IsUpdating = true;
+        IsUpdating   = true;
         UpdateStatus = "Sprawdzam aktualizacje...";
         try
         {
-#if NET8_0_WINDOWS
-            var svc = new UpdateService();
-            var newVersion = await svc.CheckForUpdateAsync();
+            using var svc       = new UpdateService();
+            var       newVersion = await svc.CheckForUpdateAsync();
             if (newVersion is null)
             {
                 UpdateStatus = $"✓ Masz najnowszą wersję (v{Program.AppVersion})";
                 return;
             }
             UpdateStatus = $"Dostępna v{newVersion} — pobieranie...";
-            await svc.DownloadAndApplyAsync(p => UpdateStatus = $"Pobieranie: {p}%");
-            UpdateStatus = "Aktualizacja gotowa — restart...";
-#else
-            await Task.CompletedTask;
-            UpdateStatus = "Aktualizacje dostępne tylko na Windows";
-#endif
+            await svc.DownloadAndInstallAsync(newVersion, p => UpdateStatus = $"Pobieranie: {p}%");
         }
         catch (Exception ex)
         {
