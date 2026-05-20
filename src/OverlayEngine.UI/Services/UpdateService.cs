@@ -11,7 +11,7 @@ namespace OverlayEngine.UI.Services;
 // ─────────────────────────────────────────────────────────────────────────────
 internal sealed class UpdateService
 {
-    private const string GithubRepoUrl = "https://github.com/YOUR_GITHUB_USERNAME/OverlayEngine";
+    private const string GithubRepoUrl = "https://github.com/drdrajwer/OverlayEngine";
 
     public async Task<string?> CheckForUpdateAsync()
     {
