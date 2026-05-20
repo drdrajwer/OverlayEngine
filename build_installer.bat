@@ -52,9 +52,7 @@ if not exist "%PUBLISH_DIR%\OverlayEngine.UI.exe" (
         --configuration Release ^
         --runtime win-x64 ^
         --self-contained true ^
-        --output "%PUBLISH_DIR%" ^
-        -p:PublishSingleFile=true ^
-        -p:IncludeNativeLibrariesForSelfExtract=true
+        --output "%PUBLISH_DIR%"
 
     if errorlevel 1 (
         echo  [BLAD] Build nie powiodl sie.
