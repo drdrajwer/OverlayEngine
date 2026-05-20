@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:OverlayEngine.UI.ViewModels"
+        xmlns:widgets="using:OverlayEngine.UI.Views.Widgets"
+        x:Class="OverlayEngine.UI.Views.OverlayWindow"
+        x:DataType="vm:MainOverlayViewModel"
+        Title="OverlayEngine"
+        Width="220"
+        Height="600"
+        SystemDecorations="None"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        Topmost="True"
+        CanResize="False"
+        ShowInTaskbar="False">
+
+    <Window.Styles>
+        <StyleInclude Source="/Styles/GlobalStyles.axaml" />
+    </Window.Styles>
+
+    <!-- Root visibility binding — toggle entire overlay with hotkey -->
+    <Panel IsVisible="{Binding IsVisible}">
+
+        <!-- Draggable handle — only active in edit mode -->
+        <Panel Background="Transparent"
+               IsHitTestVisible="{Binding IsEditMode}">
+
+            <StackPanel Spacing="8"
+                        Margin="12">
+
+                <!-- Edit mode indicator bar -->
+                <Border IsVisible="{Binding IsEditMode}"
+                        Background="#33FFFFFF"
+                        CornerRadius="6"
+                        Padding="8,4"
+                        HorizontalAlignment="Stretch">
+                    <TextBlock Text="✦ EDIT MODE — drag to reposition"
+                               FontSize="9"
+                               Foreground="#AAFFFFFF"
+                               HorizontalAlignment="Center"
+                               FontFamily="Inter,Roboto,sans-serif" />
+                </Border>
+
+                <!-- CPU / GPU widget tile -->
+                <widgets:CpuGpuWidget DataContext="{Binding CpuGpu}" />
+
+                <!-- Audio widget tile -->
+                <widgets:AudioWidget DataContext="{Binding Audio}" />
+
+                <!-- Network speed widget tile -->
+                <widgets:NetworkWidget DataContext="{Binding Network}" />
+
+                <!-- Quick Notes widget tile -->
+                <widgets:NotesWidget DataContext="{Binding Notes}" />
+
+            </StackPanel>
+
+        </Panel>
+
+    </Panel>
+</Window>

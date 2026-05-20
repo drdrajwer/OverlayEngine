@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OverlayEngine.UI.ViewModels.Widgets"
+             xmlns:views="using:OverlayEngine.UI.Views.Widgets"
+             x:Class="OverlayEngine.UI.Views.Widgets.CpuGpuWidget"
+             x:DataType="vm:CpuGpuWidgetViewModel">
+
+    <Border Classes="tile-glow"
+            x:Name="TileBorder">
+        <Grid RowDefinitions="Auto,12,Auto">
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0"
+                       Text="CPU / GPU"
+                       Classes="label-small" />
+
+            <!-- Ring meters row -->
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="*,16,*">
+
+                <!-- CPU ring -->
+                <views:RingMeter Grid.Column="0"
+                                 Value="{Binding CpuLoad}"
+                                 MaxValue="100"
+                                 GlowBrush="{Binding CpuGlow}"
+                                 Label="CPU"
+                                 SubLabel="{Binding CpuTemp, StringFormat={}{0:F0}°C}" />
+
+                <!-- GPU ring -->
+                <views:RingMeter Grid.Column="2"
+                                 Value="{Binding GpuLoad}"
+                                 MaxValue="100"
+                                 GlowBrush="{Binding GpuGlow}"
+                                 Label="GPU"
+                                 SubLabel="{Binding GpuTemp, StringFormat={}{0:F0}°C}" />
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

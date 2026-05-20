@@ -1,0 +1,104 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ── Tile (floating card) ─────────────────────────────────────────── -->
+    <Style Selector="Border.tile">
+        <Setter Property="Background"       Value="{DynamicResource TileBrush}" />
+        <Setter Property="BorderBrush"      Value="{DynamicResource TileBorderBrush}" />
+        <Setter Property="BorderThickness"  Value="1" />
+        <Setter Property="CornerRadius"     Value="{DynamicResource TileCorner}" />
+        <Setter Property="Padding"          Value="14,10" />
+        <Setter Property="ClipToBounds"     Value="True" />
+        <Setter Property="BoxShadow"        Value="0 4 24 0 #40000000" />
+    </Style>
+
+    <Style Selector="Border.tile-glow">
+        <Setter Property="Background"       Value="{DynamicResource TileBrush}" />
+        <Setter Property="BorderBrush"      Value="{DynamicResource TileBorderBrush}" />
+        <Setter Property="BorderThickness"  Value="1" />
+        <Setter Property="CornerRadius"     Value="{DynamicResource TileCorner}" />
+        <Setter Property="Padding"          Value="14,10" />
+        <Setter Property="ClipToBounds"     Value="True" />
+        <Setter Property="BoxShadow"        Value="0 0 16 2 #664FC3F7, 0 4 24 0 #40000000" />
+    </Style>
+
+    <!-- ── Typography ───────────────────────────────────────────────────── -->
+    <Style Selector="TextBlock.label-small">
+        <Setter Property="FontFamily"    Value="Inter,Roboto,Cantarell,sans-serif" />
+        <Setter Property="FontSize"      Value="9" />
+        <Setter Property="Foreground"    Value="{DynamicResource LabelForeground}" />
+        <Setter Property="FontWeight"    Value="Medium" />
+        <Setter Property="LetterSpacing" Value="1" />
+    </Style>
+
+    <Style Selector="TextBlock.value-large">
+        <Setter Property="FontFamily" Value="JetBrains Mono,Consolas,Courier New,monospace" />
+        <Setter Property="FontSize"   Value="26" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="TextBlock.value-medium">
+        <Setter Property="FontFamily" Value="JetBrains Mono,Consolas,Courier New,monospace" />
+        <Setter Property="FontSize"   Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style Selector="TextBlock.unit">
+        <Setter Property="FontFamily"        Value="Inter,Roboto,sans-serif" />
+        <Setter Property="FontSize"          Value="10" />
+        <Setter Property="Foreground"        Value="{DynamicResource UnitForeground}" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin"            Value="2,0,0,3" />
+    </Style>
+
+    <!-- ── Icon buttons ─────────────────────────────────────────────────── -->
+    <Style Selector="Button.icon-btn">
+        <Setter Property="Background"      Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding"         Value="4" />
+        <Setter Property="Cursor"          Value="Hand" />
+        <Setter Property="Foreground"      Value="{DynamicResource IconBtnForeground}" />
+    </Style>
+    <Style Selector="Button.icon-btn:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource PanelTextForeground}" />
+    </Style>
+
+    <!-- ── Color swatch buttons (settings) ──────────────────────────────── -->
+    <Style Selector="Button.swatch">
+        <Setter Property="Width"           Value="28" />
+        <Setter Property="Height"          Value="28" />
+        <Setter Property="CornerRadius"    Value="6" />
+        <Setter Property="Padding"         Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor"          Value="Hand" />
+        <Setter Property="Margin"          Value="3,0,0,0" />
+    </Style>
+    <Style Selector="Button.swatch:pointerover">
+        <Setter Property="Opacity" Value="0.75" />
+    </Style>
+
+    <!-- ── Slider ───────────────────────────────────────────────────────── -->
+    <Style Selector="Slider">
+        <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+    </Style>
+
+    <!-- ── TextBox ──────────────────────────────────────────────────────── -->
+    <Style Selector="TextBox.notes-input">
+        <Setter Property="Background"      Value="{DynamicResource InputBackground}" />
+        <Setter Property="BorderBrush"     Value="{DynamicResource InputBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius"    Value="6" />
+        <Setter Property="Foreground"      Value="{DynamicResource InputForeground}" />
+        <Setter Property="CaretBrush"      Value="{DynamicResource AccentBrush}" />
+        <Setter Property="FontFamily"      Value="Inter,Roboto,sans-serif" />
+        <Setter Property="FontSize"        Value="12" />
+        <Setter Property="Padding"         Value="8,6" />
+    </Style>
+
+    <!-- ── CheckBox ─────────────────────────────────────────────────────── -->
+    <Style Selector="CheckBox">
+        <Setter Property="Foreground" Value="{DynamicResource CheckboxForeground}" />
+    </Style>
+</Styles>

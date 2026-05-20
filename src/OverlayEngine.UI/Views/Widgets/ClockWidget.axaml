@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OverlayEngine.UI.ViewModels.Widgets"
+             x:Class="OverlayEngine.UI.Views.Widgets.ClockWidget"
+             x:DataType="vm:ClockWidgetViewModel">
+
+    <Border Classes="tile" MinWidth="160">
+        <Grid RowDefinitions="Auto,8,Auto,4,Auto">
+
+            <TextBlock Grid.Row="0" Text="ZEGAR" Classes="label-small" />
+
+            <!-- Time display -->
+            <TextBlock Grid.Row="2"
+                       Text="{Binding TimeText}"
+                       Classes="value-large"
+                       FontSize="32"
+                       LetterSpacing="-0.5" />
+
+            <!-- Date display -->
+            <TextBlock Grid.Row="4"
+                       Text="{Binding DateText}"
+                       FontFamily="Inter,Roboto,sans-serif"
+                       FontSize="11"
+                       Foreground="{DynamicResource LabelForeground}"
+                       LetterSpacing="0.5" />
+
+        </Grid>
+    </Border>
+
+</UserControl>

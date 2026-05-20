@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="OverlayEngine.UI.Views.Widgets.RingMeter"
+             Width="80" Height="80">
+
+    <Grid>
+        <!-- Custom-drawn ring canvas -->
+        <Canvas x:Name="RingCanvas"
+                Width="80" Height="80" />
+
+        <!-- Center text stack -->
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Spacing="0">
+            <TextBlock x:Name="ValueText"
+                       Text="0%"
+                       Classes="value-large"
+                       FontSize="20"
+                       HorizontalAlignment="Center" />
+            <TextBlock x:Name="LabelText"
+                       Classes="label-small"
+                       HorizontalAlignment="Center" />
+            <TextBlock x:Name="SubLabelText"
+                       Classes="label-small"
+                       HorizontalAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</UserControl>

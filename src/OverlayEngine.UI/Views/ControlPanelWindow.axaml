@@ -1,0 +1,608 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:OverlayEngine.UI.ViewModels.ControlPanel"
+        x:Class="OverlayEngine.UI.Views.ControlPanelWindow"
+        x:DataType="vm:SettingsPanelViewModel"
+        Title="OverlayEngine — Ustawienia"
+        Width="420" Height="720"
+        MinWidth="380" MinHeight="580"
+        Background="{DynamicResource PanelBackground}"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Inter,Roboto,Cantarell,sans-serif">
+
+    <Window.Styles>
+        <StyleInclude Source="/Styles/GlobalStyles.axaml" />
+        <Style Selector="TextBlock.section">
+            <Setter Property="FontSize"      Value="9" />
+            <Setter Property="FontWeight"    Value="SemiBold" />
+            <Setter Property="Foreground"    Value="{DynamicResource PanelSectionForeground}" />
+            <Setter Property="LetterSpacing" Value="1.5" />
+            <Setter Property="Margin"        Value="0,6,0,0" />
+        </Style>
+        <Style Selector="Button.theme-preset">
+            <Setter Property="Background"      Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding"         Value="4,2" />
+            <Setter Property="Cursor"          Value="Hand" />
+        </Style>
+        <Style Selector="Button.theme-preset:pointerover Border.preview">
+            <Setter Property="Opacity" Value="0.7" />
+        </Style>
+        <Style Selector="Border.sep">
+            <Setter Property="Background"           Value="{DynamicResource PanelSepBackground}" />
+            <Setter Property="Height"               Value="1" />
+            <Setter Property="Margin"               Value="0,4,0,0" />
+            <Setter Property="HorizontalAlignment"  Value="Stretch" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- ── Title bar ───────────────────────────────────────────────── -->
+        <Border Grid.Row="0" Background="{DynamicResource PanelTitleBackground}" Padding="20,14">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Spacing="1">
+                    <TextBlock Text="OVERLAY ENGINE"
+                               FontSize="14" FontWeight="Bold"
+                               Foreground="{DynamicResource PanelTextForeground}" LetterSpacing="2" />
+                    <TextBlock Text="Ustawienia" Classes="label-small" />
+                </StackPanel>
+                <Button Grid.Column="1" Classes="icon-btn"
+                        Content="✕" FontSize="14"
+                        Command="{Binding HideCommand}"
+                        ToolTip.Tip="Ukryj panel (program działa w tle)" />
+            </Grid>
+        </Border>
+
+        <!-- ── Scrollable content ──────────────────────────────────────── -->
+        <ScrollViewer Grid.Row="1" Padding="20,12,20,4">
+            <StackPanel Spacing="12">
+
+                <!-- ── WIDOKI ───────────────────────────────────────── -->
+                <TextBlock Text="WIDOKI I TRYB WYŚWIETLANIA" Classes="section" />
+                <Border Classes="sep" />
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock Text="TRYB EDYCJI" Classes="label-small" />
+                        <TextBlock Text="Przeciągaj każdy widget w osobne miejsce"
+                                   FontSize="10" Foreground="{DynamicResource PanelSubtextForeground}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1"
+                                  IsChecked="{Binding IsEditMode}"
+                                  OnContent="" OffContent="" />
+                </Grid>
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock Text="DYNAMICZNA WYSPA (pionowa)" Classes="label-small" />
+                        <TextBlock Text="Jedno połączone okno — styl iPhone Dynamic Island"
+                                   FontSize="10" Foreground="{DynamicResource PanelSubtextForeground}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1"
+                                  IsChecked="{Binding IsDynamicIslandMode}"
+                                  OnContent="" OffContent="" />
+                </Grid>
+
+                <!-- Pill mode — only shown when DynamicIsland is ON -->
+                <Grid ColumnDefinitions="*,Auto"
+                      IsVisible="{Binding IsDynamicIslandMode}">
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock Text="POZIOMA PIGUŁKA (kompakt)" Classes="label-small" />
+                        <TextBlock Text="Cienki poziomy pasek jak w iPhone — wyświetla kluczowe dane"
+                                   FontSize="10" Foreground="{DynamicResource PanelSubtextForeground}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1"
+                                  IsChecked="{Binding IsHorizontalPill}"
+                                  OnContent="" OffContent="" />
+                </Grid>
+
+                <!-- ── WIDGETY ───────────────────────────────────── -->
+                <TextBlock Text="WIDOCZNOŚĆ WIDGETÓW" Classes="section" />
+                <Border Classes="sep" />
+
+                <Grid ColumnDefinitions="*,*">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" ColumnDefinitions="*,Auto" Margin="0,0,8,6">
+                        <TextBlock Grid.Column="0" Text="CPU / GPU"
+                                   Classes="label-small" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowCpuGpuWidget}"
+                                      OnContent="" OffContent="" />
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="1" ColumnDefinitions="*,Auto" Margin="8,0,0,6">
+                        <TextBlock Grid.Column="0" Text="MIKROFON"
+                                   Classes="label-small" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowAudioWidget}"
+                                      OnContent="" OffContent="" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="0" ColumnDefinitions="*,Auto" Margin="0,0,8,6">
+                        <TextBlock Grid.Column="0" Text="SIEĆ"
+                                   Classes="label-small" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowNetworkWidget}"
+                                      OnContent="" OffContent="" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,Auto" Margin="8,0,0,6">
+                        <TextBlock Grid.Column="0" Text="NOTATKI"
+                                   Classes="label-small" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowNotesWidget}"
+                                      OnContent="" OffContent="" />
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="0" ColumnDefinitions="*,Auto" Margin="0,0,8,0">
+                        <TextBlock Grid.Column="0" Text="NOW PLAYING"
+                                   Classes="label-small" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowNowPlayingWidget}"
+                                      OnContent="" OffContent="" />
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="1" ColumnDefinitions="*,Auto" Margin="8,0,0,0">
+                        <TextBlock Grid.Column="0" Text="ZEGAR"
+                                   Classes="label-small" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowClockWidget}"
+                                      OnContent="" OffContent="" />
+                    </Grid>
+                </Grid>
+
+                <!-- ── MONITOR ───────────────────────────────────── -->
+                <TextBlock Text="MONITOR" Classes="section" />
+                <Border Classes="sep" />
+
+                <Grid ColumnDefinitions="*,Auto,8,Auto">
+                    <ComboBox Grid.Column="0"
+                              ItemsSource="{Binding AvailableMonitors}"
+                              SelectedIndex="{Binding SelectedMonitorIndex}"
+                              Background="{DynamicResource PanelInputBackground}"
+                              Foreground="{DynamicResource PanelInputForeground}"
+                              BorderBrush="{DynamicResource PanelInputBorder}" />
+                    <Button Grid.Column="1"
+                            Content="PRZENIEŚ"
+                            Command="{Binding MoveToMonitorCommand}"
+                            Background="{DynamicResource AccentBrush}"
+                            Foreground="#FF111111"
+                            FontSize="11" FontWeight="Bold"
+                            CornerRadius="8" Padding="14,9" />
+                    <Button Grid.Column="3"
+                            Content="↺"
+                            Classes="icon-btn"
+                            FontSize="16"
+                            ToolTip.Tip="Odśwież listę monitorów"
+                            Click="OnRefreshMonitors" />
+                </Grid>
+
+                <!-- ── MOTYWY ────────────────────────────────────── -->
+                <TextBlock Text="MOTYWY GOTOWE" Classes="section" />
+                <Border Classes="sep" />
+
+                <WrapPanel Orientation="Horizontal">
+
+                    <!-- Cyber Blue -->
+                    <Button Classes="theme-preset" Margin="0,0,6,0"
+                            Command="{Binding SetThemePresetCommand}" CommandParameter="CyberBlue"
+                            ToolTip.Tip="Cyber Blue — ciemny, niebieski akcent">
+                        <StackPanel Spacing="4" Width="54">
+                            <Border Classes="preview" Height="28" CornerRadius="6"
+                                    Background="#FF0D0D0D">
+                                <Ellipse Width="12" Height="12" Fill="#4FC3F7"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Cyber" FontSize="8" TextAlignment="Center"
+                                       Foreground="{DynamicResource PanelSubtextForeground}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Dark Orange -->
+                    <Button Classes="theme-preset" Margin="0,0,6,0"
+                            Command="{Binding SetThemePresetCommand}" CommandParameter="DarkOrange"
+                            ToolTip.Tip="Dark Orange — ciemny, pomarańczowy akcent">
+                        <StackPanel Spacing="4" Width="54">
+                            <Border Classes="preview" Height="28" CornerRadius="6"
+                                    Background="#FF0D0D0D">
+                                <Ellipse Width="12" Height="12" Fill="#FF9800"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Orange" FontSize="8" TextAlignment="Center"
+                                       Foreground="{DynamicResource PanelSubtextForeground}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Dark Green -->
+                    <Button Classes="theme-preset" Margin="0,0,6,0"
+                            Command="{Binding SetThemePresetCommand}" CommandParameter="DarkGreen"
+                            ToolTip.Tip="Dark Green — ciemny, zielony akcent">
+                        <StackPanel Spacing="4" Width="54">
+                            <Border Classes="preview" Height="28" CornerRadius="6"
+                                    Background="#FF0D0D0D">
+                                <Ellipse Width="12" Height="12" Fill="#4CAF50"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Green" FontSize="8" TextAlignment="Center"
+                                       Foreground="{DynamicResource PanelSubtextForeground}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Dark Purple -->
+                    <Button Classes="theme-preset" Margin="0,0,6,0"
+                            Command="{Binding SetThemePresetCommand}" CommandParameter="DarkPurple"
+                            ToolTip.Tip="Dark Purple — ciemny, fioletowy akcent">
+                        <StackPanel Spacing="4" Width="54">
+                            <Border Classes="preview" Height="28" CornerRadius="6"
+                                    Background="#FF0D0D0D">
+                                <Ellipse Width="12" Height="12" Fill="#CE93D8"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Purple" FontSize="8" TextAlignment="Center"
+                                       Foreground="{DynamicResource PanelSubtextForeground}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Monochrome -->
+                    <Button Classes="theme-preset" Margin="0,0,6,0"
+                            Command="{Binding SetThemePresetCommand}" CommandParameter="Monochrome"
+                            ToolTip.Tip="Monochrome — ciemny, biały akcent">
+                        <StackPanel Spacing="4" Width="54">
+                            <Border Classes="preview" Height="28" CornerRadius="6"
+                                    Background="#FF0D0D0D">
+                                <Ellipse Width="12" Height="12" Fill="#EEEEEE"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Mono" FontSize="8" TextAlignment="Center"
+                                       Foreground="{DynamicResource PanelSubtextForeground}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Light -->
+                    <Button Classes="theme-preset"
+                            Command="{Binding SetThemePresetCommand}" CommandParameter="Light"
+                            ToolTip.Tip="Light — jasne tło, niebieski akcent">
+                        <StackPanel Spacing="4" Width="54">
+                            <Border Classes="preview" Height="28" CornerRadius="6"
+                                    Background="#FFF0F0F0">
+                                <Ellipse Width="12" Height="12" Fill="#1976D2"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Light" FontSize="8" TextAlignment="Center"
+                                       Foreground="{DynamicResource PanelSubtextForeground}" />
+                        </StackPanel>
+                    </Button>
+
+                </WrapPanel>
+
+                <!-- ── WYGLĄD ────────────────────────────────────── -->
+                <TextBlock Text="WYGLĄD" Classes="section" />
+                <Border Classes="sep" />
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="PRZEZROCZYSTOŚĆ TŁA" Classes="label-small" />
+                    <Grid ColumnDefinitions="*,44">
+                        <Slider Grid.Column="0" Minimum="0.05" Maximum="1"
+                                Value="{Binding BackgroundOpacity}" TickFrequency="0.05" />
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding BackgroundOpacity, StringFormat={}{0:P0}}"
+                                   Foreground="{DynamicResource PanelValueForeground}" FontSize="11"
+                                   VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="ZAOKRĄGLENIE ROGÓW" Classes="label-small" />
+                    <Grid ColumnDefinitions="*,30">
+                        <Slider Grid.Column="0" Minimum="0" Maximum="28"
+                                Value="{Binding CornerRadius}" />
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding CornerRadius, StringFormat={}{0:F0}}"
+                                   Foreground="{DynamicResource PanelValueForeground}" FontSize="11"
+                                   VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="SKALA WIDGETÓW" Classes="label-small" />
+                    <Grid ColumnDefinitions="*,40">
+                        <Slider Grid.Column="0" Minimum="0.5" Maximum="2.0"
+                                Value="{Binding Scale}"
+                                TickFrequency="0.1" IsSnapToTickEnabled="True" />
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding Scale, StringFormat={}{0:P0}}"
+                                   Foreground="{DynamicResource PanelValueForeground}" FontSize="11"
+                                   VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </Grid>
+                </StackPanel>
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="ACRYLIC BLUR"
+                               Classes="label-small" VerticalAlignment="Center" />
+                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding EnableBlur}"
+                                  OnContent="" OffContent="" />
+                </Grid>
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock Text="MOTYW JASNY" Classes="label-small" />
+                        <TextBlock Text="Białe tło widgetów i panelu ustawień"
+                                   FontSize="10" Foreground="{DynamicResource PanelSubtextForeground}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding IsLightTheme}"
+                                  OnContent="" OffContent="" />
+                </Grid>
+
+                <!-- ── KOLORY ────────────────────────────────────── -->
+                <TextBlock Text="KOLORY" Classes="section" />
+                <Border Classes="sep" />
+
+                <!-- Accent color -->
+                <StackPanel Spacing="6">
+                    <TextBlock Text="KOLOR AKCENTU" Classes="label-small" />
+                    <WrapPanel Orientation="Horizontal">
+                        <!-- Blues / Cyans -->
+                        <Button Classes="swatch" Background="#4FC3F7" ToolTip.Tip="Błękit jasny"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#4FC3F7" />
+                        <Button Classes="swatch" Background="#29B6F6" ToolTip.Tip="Błękit"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#29B6F6" />
+                        <Button Classes="swatch" Background="#0288D1" ToolTip.Tip="Błękit ciemny"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#0288D1" />
+                        <Button Classes="swatch" Background="#00BCD4" ToolTip.Tip="Cyan"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#00BCD4" />
+                        <Button Classes="swatch" Background="#26C6DA" ToolTip.Tip="Cyan jasny"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#26C6DA" />
+                        <Button Classes="swatch" Background="#00ACC1" ToolTip.Tip="Cyan głęboki"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#00ACC1" />
+                        <!-- Greens -->
+                        <Button Classes="swatch" Background="#81C784" ToolTip.Tip="Zieleń jasna"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#81C784" />
+                        <Button Classes="swatch" Background="#66BB6A" ToolTip.Tip="Zieleń"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#66BB6A" />
+                        <Button Classes="swatch" Background="#4CAF50" ToolTip.Tip="Zieleń mocna"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#4CAF50" />
+                        <Button Classes="swatch" Background="#8BC34A" ToolTip.Tip="Limonka"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#8BC34A" />
+                        <Button Classes="swatch" Background="#CDDC39" ToolTip.Tip="Żółto-zielona"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#CDDC39" />
+                        <!-- Oranges / Yellows -->
+                        <Button Classes="swatch" Background="#FFB74D" ToolTip.Tip="Pomarańcz jasny"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#FFB74D" />
+                        <Button Classes="swatch" Background="#FFA726" ToolTip.Tip="Pomarańcz"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#FFA726" />
+                        <Button Classes="swatch" Background="#FF9800" ToolTip.Tip="Pomarańcz głęboki"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#FF9800" />
+                        <Button Classes="swatch" Background="#FFF176" ToolTip.Tip="Żółty"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#FFF176" />
+                        <Button Classes="swatch" Background="#FFCA28" ToolTip.Tip="Złoty"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#FFCA28" />
+                        <!-- Pinks / Purples -->
+                        <Button Classes="swatch" Background="#F06292" ToolTip.Tip="Różowy jasny"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#F06292" />
+                        <Button Classes="swatch" Background="#EC407A" ToolTip.Tip="Różowy"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#EC407A" />
+                        <Button Classes="swatch" Background="#E91E63" ToolTip.Tip="Różowo-czerwony"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#E91E63" />
+                        <Button Classes="swatch" Background="#CE93D8" ToolTip.Tip="Lawendowy"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#CE93D8" />
+                        <Button Classes="swatch" Background="#BA68C8" ToolTip.Tip="Fiolet jasny"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#BA68C8" />
+                        <Button Classes="swatch" Background="#9C27B0" ToolTip.Tip="Fiolet"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#9C27B0" />
+                        <!-- Reds / Teals -->
+                        <Button Classes="swatch" Background="#EF9A9A" ToolTip.Tip="Czerwień jasna"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#EF9A9A" />
+                        <Button Classes="swatch" Background="#EF5350" ToolTip.Tip="Czerwień"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#EF5350" />
+                        <Button Classes="swatch" Background="#FF6B6B" ToolTip.Tip="Koral"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#FF6B6B" />
+                        <Button Classes="swatch" Background="#80CBC4" ToolTip.Tip="Turkus jasny"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#80CBC4" />
+                        <Button Classes="swatch" Background="#4DB6AC" ToolTip.Tip="Turkus"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#4DB6AC" />
+                        <Button Classes="swatch" Background="#009688" ToolTip.Tip="Morski"
+                                Command="{Binding SetAccentCommand}" CommandParameter="#009688" />
+                    </WrapPanel>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <TextBlock Grid.Column="0" Text="HEX:" Classes="label-small"
+                                   VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox Grid.Column="1" Classes="notes-input"
+                                 Text="{Binding AccentColor}" Watermark="#4FC3F7" />
+                    </Grid>
+                </StackPanel>
+
+                <!-- Text color -->
+                <StackPanel Spacing="6">
+                    <TextBlock Text="KOLOR TEKSTU / WARTOŚCI" Classes="label-small" />
+                    <WrapPanel Orientation="Horizontal">
+                        <!-- Whites -->
+                        <Button Classes="swatch" Background="#FFFFFFFF" ToolTip.Tip="Biały czysty"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#FFFFFFFF" />
+                        <Button Classes="swatch" Background="#F5F5F5" ToolTip.Tip="Biały dymny"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#F5F5F5" />
+                        <Button Classes="swatch" Background="#EEEEEE" ToolTip.Tip="Biały szary"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#EEEEEE" />
+                        <Button Classes="swatch" Background="#CCFFFFFF" ToolTip.Tip="Biały półprzezroczysty"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#CCFFFFFF" />
+                        <!-- Warm -->
+                        <Button Classes="swatch" Background="#FFE0B2" ToolTip.Tip="Ciepły brzoskwiniowy"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#FFE0B2" />
+                        <Button Classes="swatch" Background="#FFCC80" ToolTip.Tip="Ciepły pomarańczowy"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#FFCC80" />
+                        <Button Classes="swatch" Background="#FFD54F" ToolTip.Tip="Ciepły żółty"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#FFD54F" />
+                        <!-- Cool blues -->
+                        <Button Classes="swatch" Background="#B3E5FC" ToolTip.Tip="Lodowy niebieski"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#B3E5FC" />
+                        <Button Classes="swatch" Background="#81D4FA" ToolTip.Tip="Błękitny"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#81D4FA" />
+                        <Button Classes="swatch" Background="#B2EBF2" ToolTip.Tip="Lodowy cyan"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#B2EBF2" />
+                        <!-- Greens -->
+                        <Button Classes="swatch" Background="#C8E6C9" ToolTip.Tip="Miętowy"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#C8E6C9" />
+                        <Button Classes="swatch" Background="#DCEDC8" ToolTip.Tip="Limonkowy jasny"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#DCEDC8" />
+                        <Button Classes="swatch" Background="#A5D6A7" ToolTip.Tip="Zielonkawy"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#A5D6A7" />
+                        <!-- Grays -->
+                        <Button Classes="swatch" Background="#BBBBBB" ToolTip.Tip="Szary jasny"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#BBBBBB" />
+                        <Button Classes="swatch" Background="#9E9E9E" ToolTip.Tip="Szary"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#9E9E9E" />
+                        <!-- Accent mirror -->
+                        <Button Classes="swatch" Background="#4FC3F7" ToolTip.Tip="Akcent błękit"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#4FC3F7" />
+                        <Button Classes="swatch" Background="#CE93D8" ToolTip.Tip="Akcent fiolet"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#CE93D8" />
+                        <Button Classes="swatch" Background="#81C784" ToolTip.Tip="Akcent zieleń"
+                                Command="{Binding SetTextColorCommand}" CommandParameter="#81C784" />
+                    </WrapPanel>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <TextBlock Grid.Column="0" Text="HEX:" Classes="label-small"
+                                   VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox Grid.Column="1" Classes="notes-input"
+                                 Text="{Binding TextColor}" Watermark="#FFFFFFFF" />
+                    </Grid>
+                </StackPanel>
+
+                <!-- Border -->
+                <StackPanel Spacing="6">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" Text="OBRAMOWANIE KAFELKÓW"
+                                   Classes="label-small" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowTileBorder}"
+                                      OnContent="" OffContent="" />
+                    </Grid>
+                    <WrapPanel Orientation="Horizontal" IsVisible="{Binding ShowTileBorder}">
+                        <!-- White shades -->
+                        <Button Classes="swatch" Background="#22FFFFFF" ToolTip.Tip="Biały subtelny"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#22FFFFFF" />
+                        <Button Classes="swatch" Background="#33FFFFFF" ToolTip.Tip="Biały delikatny"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#33FFFFFF" />
+                        <Button Classes="swatch" Background="#55FFFFFF" ToolTip.Tip="Biały półprzezroczysty"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#55FFFFFF" />
+                        <Button Classes="swatch" Background="#66FFFFFF" ToolTip.Tip="Biały mocny"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#66FFFFFF" />
+                        <Button Classes="swatch" Background="#88FFFFFF" ToolTip.Tip="Biały solidny"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#88FFFFFF" />
+                        <!-- Colored -->
+                        <Button Classes="swatch" Background="#554FC3F7" ToolTip.Tip="Niebieski"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#554FC3F7" />
+                        <Button Classes="swatch" Background="#5581C784" ToolTip.Tip="Zielony"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#5581C784" />
+                        <Button Classes="swatch" Background="#55F06292" ToolTip.Tip="Różowy"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#55F06292" />
+                        <Button Classes="swatch" Background="#55FFB74D" ToolTip.Tip="Pomarańcz"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#55FFB74D" />
+                        <Button Classes="swatch" Background="#55CE93D8" ToolTip.Tip="Fiolet"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#55CE93D8" />
+                        <Button Classes="swatch" Background="#5580CBC4" ToolTip.Tip="Turkus"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#5580CBC4" />
+                        <!-- Dark -->
+                        <Button Classes="swatch" Background="#33000000" ToolTip.Tip="Czarny subtelny"
+                                Command="{Binding SetBorderColorCommand}" CommandParameter="#33000000" />
+                    </WrapPanel>
+                    <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding ShowTileBorder}">
+                        <TextBlock Grid.Column="0" Text="HEX:" Classes="label-small"
+                                   VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox Grid.Column="1" Classes="notes-input"
+                                 Text="{Binding BorderColor}" Watermark="#33FFFFFF" />
+                    </Grid>
+                </StackPanel>
+
+                <!-- ── DZIAŁANIE ─────────────────────────────────── -->
+                <TextBlock Text="DZIAŁANIE" Classes="section" />
+                <Border Classes="sep" />
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="ODŚWIEŻANIE SENSORÓW (ms)" Classes="label-small" />
+                    <Grid ColumnDefinitions="*,50">
+                        <Slider Grid.Column="0" Minimum="250" Maximum="5000"
+                                Value="{Binding SensorPollMs}"
+                                TickFrequency="250" IsSnapToTickEnabled="True" />
+                        <TextBlock Grid.Column="1" Text="{Binding SensorPollMs}"
+                                   Foreground="{DynamicResource PanelValueForeground}" FontSize="11"
+                                   VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="SKRÓT KLAWISZOWY (pokaż/ukryj overlay)" Classes="label-small" />
+                    <TextBox Classes="notes-input" Text="{Binding ToggleHotkey}"
+                             Watermark="np. Ctrl+Shift+O" />
+                </StackPanel>
+
+                <!-- ── SYSTEM ────────────────────────────────────── -->
+                <TextBlock Text="SYSTEM" Classes="section" />
+                <Border Classes="sep" />
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock Text="AUTOSTART" Classes="label-small" />
+                        <TextBlock Text="Uruchamiaj OverlayEngine przy logowaniu"
+                                   FontSize="10" Foreground="{DynamicResource PanelSubtextForeground}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding AutostartEnabled}"
+                                  OnContent="" OffContent="" />
+                </Grid>
+
+                <!-- ── AKTUALIZACJE ─────────────────────────────────── -->
+                <TextBlock Text="AKTUALIZACJE" Classes="section" />
+                <Border Classes="sep" />
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                        <TextBlock Text="AUTO-UPDATE (Velopack + GitHub)" Classes="label-small" />
+                        <TextBlock Text="{Binding UpdateStatus}"
+                                   FontSize="10" Foreground="{DynamicResource PanelValueForeground}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                    <Button Grid.Column="1"
+                            Content="SPRAWDŹ"
+                            Command="{Binding CheckUpdatesCommand}"
+                            Background="{DynamicResource AccentBrush}"
+                            Foreground="#FF111111"
+                            FontSize="11" FontWeight="Bold"
+                            CornerRadius="8" Padding="14,9"
+                            Margin="10,0,0,0" />
+                </Grid>
+
+                <!-- Bottom spacer to ensure last item is visible above action bar -->
+                <Border Height="16" />
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ── Action bar ──────────────────────────────────────────────── -->
+        <Border Grid.Row="2" Background="{DynamicResource PanelBarBackground}" Padding="20,12">
+            <Grid ColumnDefinitions="Auto,*,Auto,8,Auto">
+
+                <Button Grid.Column="0"
+                        Content="RESET"
+                        Command="{Binding ResetCommand}"
+                        Background="#22FFFFFF" Foreground="#88FFFFFF"
+                        FontSize="11" FontWeight="Bold"
+                        CornerRadius="8" Padding="14,10"
+                        ToolTip.Tip="Przywróć ustawienia domyślne" />
+
+                <Button Grid.Column="2"
+                        Content="{Binding SaveButtonLabel}"
+                        Command="{Binding SaveCommand}"
+                        Background="{DynamicResource AccentBrush}"
+                        Foreground="#FF111111"
+                        FontSize="11" FontWeight="Bold"
+                        CornerRadius="8" Padding="20,10" />
+
+                <Button Grid.Column="4"
+                        Content="ZAMKNIJ PROGRAM"
+                        Command="{Binding ExitCommand}"
+                        Background="#33EF5350" Foreground="#FFEF9A9A"
+                        FontSize="11" FontWeight="Bold"
+                        CornerRadius="8" Padding="14,10"
+                        ToolTip.Tip="Zamknij OverlayEngine" />
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

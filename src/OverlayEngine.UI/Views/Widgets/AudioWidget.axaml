@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OverlayEngine.UI.ViewModels.Widgets"
+             x:Class="OverlayEngine.UI.Views.Widgets.AudioWidget"
+             x:DataType="vm:AudioWidgetViewModel">
+
+    <Border Classes="tile" Padding="12,9">
+        <Grid RowDefinitions="Auto,6,Auto,6,Auto">
+
+            <!-- Header row: title + status badge -->
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="MIC INPUT"
+                           Classes="label-small" />
+                <Border Grid.Column="1"
+                        x:Name="StatusBadge"
+                        CornerRadius="4" Padding="5,2"
+                        Background="#1A4FC3F7">
+                    <TextBlock x:Name="StatusText"
+                               Text="ACTIVE"
+                               FontSize="8" FontWeight="SemiBold"
+                               LetterSpacing="0.8"
+                               Foreground="#4FC3F7" />
+                </Border>
+            </Grid>
+
+            <!-- Icon + dB readout -->
+            <Grid Grid.Row="2" ColumnDefinitions="Auto,10,*">
+                <Border Grid.Column="0"
+                        x:Name="MuteIndicator"
+                        Width="34" Height="34"
+                        CornerRadius="17"
+                        Background="#1AFFFFFF"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="🎙"
+                               FontSize="16"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Border>
+
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Spacing="0">
+                    <StackPanel Orientation="Horizontal" Spacing="2">
+                        <TextBlock x:Name="DbText"
+                                   Text="—"
+                                   Classes="value-medium"
+                                   FontSize="20" />
+                        <TextBlock Text="dB"
+                                   Classes="unit"
+                                   VerticalAlignment="Bottom"
+                                   Margin="1,0,0,4" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- VU bar -->
+            <Border Grid.Row="4"
+                    Background="#18FFFFFF"
+                    CornerRadius="4"
+                    Height="6"
+                    ClipToBounds="True">
+                <Border x:Name="VuBar"
+                        CornerRadius="4"
+                        HorizontalAlignment="Left"
+                        Width="0" Height="6" />
+            </Border>
+
+        </Grid>
+    </Border>
+</UserControl>

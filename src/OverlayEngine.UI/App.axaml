@@ -1,0 +1,44 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="OverlayEngine.UI.App"
+             RequestedThemeVariant="Dark">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Widget resources (overridden at runtime by ApplyResources) -->
+            <SolidColorBrush x:Key="AccentBrush"      Color="#4FC3F7" />
+            <SolidColorBrush x:Key="TileBrush"        Color="#CC0D0D0D" />
+            <SolidColorBrush x:Key="TextBrush"        Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="TileBorderBrush"  Color="Transparent" />
+            <CornerRadius    x:Key="TileCorner">10</CornerRadius>
+
+            <!-- Typography resources -->
+            <SolidColorBrush x:Key="LabelForeground"  Color="#88FFFFFF" />
+            <SolidColorBrush x:Key="UnitForeground"   Color="#66FFFFFF" />
+            <SolidColorBrush x:Key="IconBtnForeground" Color="#88FFFFFF" />
+            <SolidColorBrush x:Key="InputBackground"  Color="#1AFFFFFF" />
+            <SolidColorBrush x:Key="InputBorder"      Color="#33FFFFFF" />
+            <SolidColorBrush x:Key="InputForeground"  Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="CheckboxForeground" Color="#CCFFFFFF" />
+
+            <!-- Control panel theme resources (dark defaults) -->
+            <SolidColorBrush x:Key="PanelBackground"        Color="#FF0E0E0E" />
+            <SolidColorBrush x:Key="PanelTitleBackground"   Color="#FF161616" />
+            <SolidColorBrush x:Key="PanelBarBackground"     Color="#FF0A0A0A" />
+            <SolidColorBrush x:Key="PanelTextForeground"    Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="PanelSectionForeground" Color="#55FFFFFF" />
+            <SolidColorBrush x:Key="PanelSubtextForeground" Color="#44FFFFFF" />
+            <SolidColorBrush x:Key="PanelValueForeground"   Color="#77FFFFFF" />
+            <SolidColorBrush x:Key="PanelSepBackground"     Color="#18FFFFFF" />
+            <SolidColorBrush x:Key="PanelInputBackground"   Color="#1AFFFFFF" />
+            <SolidColorBrush x:Key="PanelInputForeground"   Color="#CCFFFFFF" />
+            <SolidColorBrush x:Key="PanelInputBorder"       Color="#33FFFFFF" />
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://OverlayEngine.UI/Styles/GlobalStyles.axaml" />
+        <StyleInclude Source="avares://OverlayEngine.UI/Styles/Animations.axaml" />
+    </Application.Styles>
+</Application>

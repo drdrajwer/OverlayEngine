@@ -1,0 +1,48 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Fade-in for widget tiles on load -->
+    <Style Selector="Border.tile, Border.tile-glow">
+        <Style.Animations>
+            <Animation Duration="0:0:0.3" FillMode="Forward">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+
+    <!-- Notes expand animation — applied programmatically via IsVisible transition -->
+    <Style Selector="StackPanel.notes-body">
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity"
+                                  Duration="0:0:0.2"
+                                  Easing="CubicEaseOut" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <!-- Mute pulse — applied when IsMuted=true via pseudo-class in code-behind -->
+    <Style Selector="Border.mute-pulse">
+        <Style.Animations>
+            <Animation Duration="0:0:0.8"
+                       IterationCount="INFINITE"
+                       FillMode="Both">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="1.0" />
+                </KeyFrame>
+                <KeyFrame Cue="50%">
+                    <Setter Property="Opacity" Value="0.3" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1.0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+
+</Styles>

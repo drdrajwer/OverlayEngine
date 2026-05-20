@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OverlayEngine.UI.ViewModels.Widgets"
+             x:Class="OverlayEngine.UI.Views.Widgets.NowPlayingWidget"
+             x:DataType="vm:NowPlayingWidgetViewModel">
+
+    <Border Classes="tile" Padding="12,9">
+        <Grid RowDefinitions="Auto,7,Auto">
+
+            <!-- Header -->
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="NOW PLAYING"
+                           Classes="label-small" />
+                <Border Grid.Column="1"
+                        CornerRadius="4" Padding="5,2"
+                        Background="#1A4FC3F7"
+                        IsVisible="{Binding IsPlaying}">
+                    <TextBlock Text="▶ LIVE"
+                               FontSize="8" FontWeight="SemiBold"
+                               LetterSpacing="0.8"
+                               Foreground="{DynamicResource AccentBrush}" />
+                </Border>
+            </Grid>
+
+            <!-- Track info -->
+            <Grid Grid.Row="2" ColumnDefinitions="Auto,10,*">
+                <TextBlock Grid.Column="0"
+                           Text="♫"
+                           FontSize="22"
+                           Foreground="{DynamicResource AccentBrush}"
+                           VerticalAlignment="Center" />
+
+                <StackPanel Grid.Column="2" Spacing="2" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Title}"
+                               Classes="value-medium"
+                               FontSize="13"
+                               TextTrimming="CharacterEllipsis"
+                               MaxWidth="175" />
+                    <TextBlock Text="{Binding Artist}"
+                               FontSize="10"
+                               Foreground="#77FFFFFF"
+                               IsVisible="{Binding IsPlaying}"
+                               TextTrimming="CharacterEllipsis"
+                               MaxWidth="175" />
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

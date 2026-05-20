@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OverlayEngine.UI.ViewModels.Widgets"
+             xmlns:views="using:OverlayEngine.UI.Views.Widgets"
+             x:Class="OverlayEngine.UI.Views.Widgets.NetworkWidget"
+             x:DataType="vm:NetworkWidgetViewModel">
+
+    <Border Classes="tile">
+        <Grid RowDefinitions="Auto,7,Auto,7,Auto">
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0"
+                       Text="NETWORK"
+                       Classes="label-small" />
+
+            <!-- Speed row: Download + Upload -->
+            <Grid Grid.Row="2" ColumnDefinitions="Auto,5,*,12,Auto,5,*">
+
+                <!-- Download arrow -->
+                <TextBlock Grid.Column="0"
+                           Text="↓"
+                           FontSize="13" FontWeight="Bold"
+                           Foreground="#4FC3F7"
+                           VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2"
+                           x:Name="DownLabel"
+                           Text="{Binding DownloadLabel}"
+                           Classes="value-medium"
+                           Foreground="#4FC3F7" />
+
+                <!-- Upload arrow -->
+                <TextBlock Grid.Column="4"
+                           Text="↑"
+                           FontSize="13" FontWeight="Bold"
+                           Foreground="#CE93D8"
+                           VerticalAlignment="Center" />
+                <TextBlock Grid.Column="6"
+                           x:Name="UpLabel"
+                           Text="{Binding UploadLabel}"
+                           Classes="value-medium"
+                           Foreground="#CE93D8" />
+            </Grid>
+
+            <!-- Sparkline chart -->
+            <views:SparklineChart Grid.Row="4"
+                                  x:Name="Chart"
+                                  Height="32"
+                                  HorizontalAlignment="Stretch"
+                                  DownloadHistory="{Binding DownloadHistory}"
+                                  UploadHistory="{Binding UploadHistory}" />
+
+        </Grid>
+    </Border>
+</UserControl>

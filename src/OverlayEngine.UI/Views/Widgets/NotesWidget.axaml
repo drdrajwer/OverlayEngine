@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:OverlayEngine.UI.ViewModels.Widgets"
+             x:Class="OverlayEngine.UI.Views.Widgets.NotesWidget"
+             x:Name="NotesRoot"
+             x:DataType="vm:NotesWidgetViewModel">
+
+    <Border Classes="tile">
+        <StackPanel Spacing="8">
+
+            <!-- Header row -->
+            <Grid ColumnDefinitions="*,Auto,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="NOTES"
+                           Classes="label-small"
+                           VerticalAlignment="Center" />
+                <Button Grid.Column="1"
+                        Classes="icon-btn"
+                        Command="{Binding ToggleExpandCommand}"
+                        Content="{Binding IsExpanded, Converter={x:Static vm:BoolToChevronConverter.Instance}}" />
+                <!-- Settings / menu button -->
+                <Button Grid.Column="2"
+                        Classes="icon-btn"
+                        Command="{Binding ShowSettingsCommand}"
+                        Content="⚙"
+                        FontSize="13"
+                        ToolTip.Tip="Ustawienia"
+                        Margin="2,0,0,0" />
+            </Grid>
+
+            <!-- Expandable body -->
+            <StackPanel Classes="notes-body"
+                        IsVisible="{Binding IsExpanded}"
+                        Spacing="4">
+
+                <!-- Notes list -->
+                <ItemsControl x:Name="NotesList"
+                              ItemsSource="{Binding Notes}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                  Margin="0,2">
+                                <CheckBox Grid.Column="0"
+                                          IsChecked="{Binding IsDone}"
+                                          VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Text}"
+                                           FontFamily="Inter,Roboto,sans-serif"
+                                           FontSize="12"
+                                           Foreground="#CCFFFFFF"
+                                           VerticalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           Margin="6,0" />
+                                <Button Grid.Column="2"
+                                        Classes="icon-btn"
+                                        Content="×"
+                                        FontSize="14"
+                                        Command="{Binding #NotesList.((vm:NotesWidgetViewModel)DataContext).RemoveNoteCommand}"
+                                        CommandParameter="{Binding}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Add note row -->
+                <Grid ColumnDefinitions="*,Auto"
+                      Margin="0,4,0,0">
+                    <TextBox Grid.Column="0"
+                             Classes="notes-input"
+                             Text="{Binding NewNoteText}"
+                             Watermark="Nowa notatka…"
+                             VerticalAlignment="Center" />
+                    <Button Grid.Column="1"
+                            Classes="icon-btn"
+                            Content="+"
+                            FontSize="18"
+                            Margin="6,0,0,0"
+                            Command="{Binding AddNoteCommand}" />
+                </Grid>
+
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+</UserControl>
